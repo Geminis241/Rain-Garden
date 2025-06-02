@@ -1,25 +1,19 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Detalles de la Planta</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Añadir planta</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
   <style>
     body {
       background-color: #C7D8AA;
       font-family: "Courier New", monospace;
     }
-
     .container {
       margin-top: 40px;
+      max-width: 600px;
     }
-
-    .table th, .table td {
-      text-align: center;
-      vertical-align: middle;
-    }
-
     .btn-back {
       background: rgb(46, 125, 50);
       color: white;
@@ -32,82 +26,132 @@
       box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
       margin-bottom: 20px;
     }
-
     .btn-back:hover {
       background: rgb(67, 160, 71);
-    }
-
-    .img-thumbnail {
-      max-width: 200px;
     }
   </style>
 </head>
 <body>
-
   <div class="container">
     <button class="btn btn-back" onclick="window.location.href='pestana2.html'">Volver</button>
+    <h2>Añadir Nueva Planta</h2>
 
-    <h2>Detalles de la Planta</h2>
+    <form id="formPlanta">
+      <div class="mb-3">
+        <label for="num" class="form-label">Número de cultivo</label>
+        <input type="text" class="form-control" id="num" required />
+      </div>
+      <div class="mb-3">
+        <label for="nombre" class="form-label">Nombre del Cultivo</label>
+        <input type="text" class="form-control" id="nombre" required />
+      </div>
+      <div class="mb-3">
+        <label for="variedad" class="form-label">Variedad</label>
+        <input type="text" class="form-control" id="variedad" />
+      </div>
+      <div class="mb-3">
+        <label for="nombreCientifico" class="form-label">Nombre Científico</label>
+        <input type="text" class="form-control" id="nombreCientifico" />
+      </div>
+      <div class="mb-3">
+        <label for="clasificacion" class="form-label">Clasificación</label>
+        <input type="text" class="form-control" id="clasificacion" />
+      </div>
+      <div class="mb-3">
+        <label for="metodoSiembra" class="form-label">Método de Siembra</label>
+        <input type="text" class="form-control" id="metodoSiembra" />
+      </div>
+      <div class="mb-3">
+        <label for="epocaSiembra" class="form-label">Época de Siembra</label>
+        <input type="text" class="form-control" id="epocaSiembra" />
+      </div>
+      <div class="mb-3">
+        <label for="mesesSiembra" class="form-label">Meses de Siembra</label>
+        <input type="text" class="form-control" id="mesesSiembra" />
+      </div>
+      <div class="mb-3">
+        <label for="diasGerminacion" class="form-label">Días de Germinación</label>
+        <input type="text" class="form-control" id="diasGerminacion" />
+      </div>
+      <div class="mb-3">
+        <label for="diasCosecha" class="form-label">Días hasta la Cosecha</label>
+        <input type="text" class="form-control" id="diasCosecha" />
+      </div>
+      <div class="mb-3">
+        <label for="distancia" class="form-label">Distancia</label>
+        <input type="text" class="form-control" id="distancia" />
+      </div>
+      <div class="mb-3">
+        <label for="tutor" class="form-label">Tutor</label>
+        <input type="text" class="form-control" id="tutor" />
+      </div>
+      <div class="mb-3">
+        <label for="imagen" class="form-label">Imagen (URL)</label>
+        <input type="text" class="form-control" id="imagen" />
+      </div>
 
-    <div id="plantDetails">
-      <!-- Aquí se cargarán los detalles de la planta -->
-    </div>
+      <button type="submit" class="btn btn-success">Guardar Planta</button>
+    </form>
+
+    <div id="mensaje" class="mt-3"></div>
   </div>
 
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      let plantaId;
+    const urlAppScript = "https://script.google.com/macros/s/AKfycbzLSy8Ho_SDzCEO0KFBDXFQA6W9xoabC-w8XP9HRYZmWTB6A8Kef0qDfyt_UZIv-RUh/exec";
 
-      if (window.AppInventor) {
-        plantaId = window.AppInventor.getWebViewString();
-      } else {
-        plantaId = "1"; // valor por defecto si no está en App Inventor
-      }
+    document.getElementById("formPlanta").addEventListener("submit", function (e) {
+      e.preventDefault();
 
+      const num = document.getElementById("num").value.trim();
+      const nombre = document.getElementById("nombre").value.trim();
+      const variedad = document.getElementById("variedad").value.trim();
+      const nombreCientifico = document.getElementById("nombreCientifico").value.trim();
+      const clasificacion = document.getElementById("clasificacion").value.trim();
+      const metodoSiembra = document.getElementById("metodoSiembra").value.trim();
+      const epocaSiembra = document.getElementById("epocaSiembra").value.trim();
+      const mesesSiembra = document.getElementById("mesesSiembra").value.trim();
+      const diasGerminacion = document.getElementById("diasGerminacion").value.trim();
+      const diasCosecha = document.getElementById("diasCosecha").value.trim();
+      const distancia = document.getElementById("distancia").value.trim();
+      const tutor = document.getElementById("tutor").value.trim();
+      const imagen = document.getElementById("imagen").value.trim();
+
+      // Construimos la cadena con los valores en el orden esperado
+      const valores = [
+        num,
+        nombre,
+        variedad,
+        nombreCientifico,
+        clasificacion,
+        metodoSiembra,
+        epocaSiembra,
+        mesesSiembra,
+        diasGerminacion,
+        diasCosecha,
+        distancia,
+        tutor,
+        imagen,
+      ].join(",");
+
+      fetch(urlAppScript + "?accion=anadir&valores=" + encodeURIComponent(valores), {
+        method: "POST",
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.status === "ok") {
+            document.getElementById("mensaje").innerHTML =
+              '<div class="alert alert-success">Planta añadida correctamente.</div>';
+            document.getElementById("formPlanta").reset();
+          } else {
+            document.getElementById("mensaje").innerHTML =
+              '<div class="alert alert-danger">Error: ' + (data.error || "Desconocido") + "</div>";
+          }
+        })
+        .catch((error) => {
+          document.getElementById("mensaje").innerHTML =
+            '<div class="alert alert-danger">Error: ' + error.message + "</div>";
+        });
     });
-
-    async function cargarDatos(plantaId) {
-      const scriptUrl = `https://script.google.com/macros/s/AKfycbxWvJf4N4kAcSfn2lC4M8R4A_ZA6nHxGqknF3fhNKfDvA/exec?accion=consultar&cultivo=${plantaId}`;
-      const respuesta = await fetch(scriptUrl);
-      const planta = await respuesta.json();
-
-      if (planta && planta.length > 0) {
-        mostrarDetalles(planta[0]);
-      } else {
-        document.getElementById('plantDetails').innerHTML = "<p>No se encontró la planta.</p>";
-      }
-    }
-
-    function mostrarDetalles(planta) {
-      const plantDetails = document.getElementById('plantDetails');
-      plantDetails.innerHTML = `
-        <table class="table table-bordered">
-          <thead>
-            <tr>
-              <th>Propiedad</th>
-              <th>Valor</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>Cultivo</strong></td>
-              <td>${planta.Nombre}</td>
-            </tr>
-            <tr>
-              <td><strong>Nombre Científico</strong></td>
-              <td>${planta["Nombre cientifico"] || 'No disponible'}</td>
-            </tr>
-            <tr>
-              <td><strong>Clasificación</strong></td>
-              <td>${planta["Clase de Hortaliza"] || 'No disponible'}</td>
-            </tr>
-          </tbody>
-        </table>
-
-        <img src="./${planta.Nombre.toLowerCase().replace(/ /g, '')}.jpg" class="img-thumbnail" alt="${planta.Nombre}">
-      `;
-    }
   </script>
-
 </body>
 </html>
