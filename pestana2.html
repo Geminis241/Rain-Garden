@@ -143,6 +143,7 @@
               <p><strong>Clasificación:</strong> ${item['clasificación de hortaliza'] || 'No disponible'}</p>
               <p><strong>Época de Siembra:</strong> ${item['época de siembra'] || 'No disponible'}</p>
               <button class="btn btn-outline-success" onclick='mostrarDetallePlantaDesdeBoton(${JSON.stringify(item).replace(/'/g, "\'")})'>Ver más</button>
+              
             </div>
           </div>
         `;
@@ -154,36 +155,40 @@
       mostrarDetallePlanta(data);
     }
 
-    function mostrarDetallePlanta(planta) {
-      document.getElementById('categoryContainer').style.display = 'none';
-      const detalle = document.getElementById('detallePlanta');
-      const imgName = planta.cultivos.toLowerCase().normalize("NFD").replace(/[^\w\s]/gi, '').replace(/\s+/g, '');
-      const imgSrc = `./${imgName}.jpg`;
-      detalle.innerHTML = `
-      <button class="btn btn-back" onclick="window.location.href='pestana2.html'">Volver</button>
+function mostrarDetallePlanta(planta) {
+  document.getElementById('categoryContainer').style.display = 'none';
+  const detalle = document.getElementById('detallePlanta');
+  const imgName = planta.cultivos.toLowerCase().normalize("NFD").replace(/[^\w\s]/gi, '').replace(/\s+/g, '');
+  const imgSrc = `./${imgName}.jpg`;
 
-        <div class="card">
-          <div class="card-body">
-             
-            <h3>${planta.cultivos}</h3>
-            <img src="${imgSrc}" class="img-thumbnail mb-3" alt="${planta.cultivos}">
-            <table class="table table-bordered">
-              <tbody>
-                <tr><td><strong>Nombre Científico:</strong></td><td>${planta['nombre científico'] || 'No disponible'}</td></tr>
-                <tr><td><strong>Clasificación:</strong></td><td>${planta['clasificación de hortaliza'] || 'No disponible'}</td></tr>
-                <tr><td><strong>Forma de siembra:</strong></td><td>${planta['forma de siembra'] || 'No disponible'}</td></tr>
-                <tr><td><strong>Época de siembra:</strong></td><td>${planta['época de siembra'] || 'No disponible'}</td></tr>
-                <tr><td><strong>Meses de siembra:</strong></td><td>${planta['meses de siembra'] || 'No disponible'}</td></tr>
-                <tr><td><strong>Días de germinación:</strong></td><td>${planta['días de germinación'] || 'No disponible'}</td></tr>
-                <tr><td><strong>Días hasta la cosecha:</strong></td><td>${planta['días hasta la cosecha'] || 'No disponible'}</td></tr>
-                <tr><td><strong>Distancia:</strong></td><td>${planta['distancia'] || 'No disponible'}</td></tr>
-                <tr><td><strong>Tutor:</strong></td><td>${planta['tutor'] || 'No disponible'}</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      `;
-    }
+  detalle.innerHTML = `
+    <button class="btn btn-back mb-3" onclick="window.location.href='pestana2.html'">Volver</button>
+
+    <div class="card">
+      <div class="card-body">
+        <h3>${planta.cultivos}</h3>
+        <img src="${imgSrc}" class="img-thumbnail mb-3" alt="${planta.cultivos}">
+        <table class="table table-bordered">
+          <tbody>
+            <tr><td><strong>Nombre Científico:</strong></td><td>${planta['nombre científico'] || 'No disponible'}</td></tr>
+            <tr><td><strong>Clasificación:</strong></td><td>${planta['clasificación de hortaliza'] || 'No disponible'}</td></tr>
+            <tr><td><strong>Forma de siembra:</strong></td><td>${planta['forma de siembra'] || 'No disponible'}</td></tr>
+            <tr><td><strong>Época de siembra:</strong></td><td>${planta['época de siembra'] || 'No disponible'}</td></tr>
+            <tr><td><strong>Meses de siembra:</strong></td><td>${planta['meses de siembra'] || 'No disponible'}</td></tr>
+            <tr><td><strong>Días de germinación:</strong></td><td>${planta['días de germinación'] || 'No disponible'}</td></tr>
+            <tr><td><strong>Días hasta la cosecha:</strong></td><td>${planta['días hasta la cosecha'] || 'No disponible'}</td></tr>
+            <tr><td><strong>Distancia:</strong></td><td>${planta['distancia'] || 'No disponible'}</td></tr>
+            <tr><td><strong>Tutor:</strong></td><td>${planta['tutor'] || 'No disponible'}</td></tr>
+          </tbody>
+        </table>
+
+        <button class="btn btn-warning me-2" onclick='editarPlanta(${JSON.stringify(planta)})'>Modificar</button>
+        <button class="btn btn-danger" onclick='borrarPlantaDesdeVista("${planta.num || planta["número"] || ""}")'>Borrar</button>
+      </div>
+    </div>
+  `;
+}
+
 
 function mostrarSugerencias() {
   const inputElement = document.getElementById('searchInput');
