@@ -224,6 +224,33 @@ function mostrarSugerencias() {
   }
 }
 
+function editarPlanta(planta) {
+  localStorage.setItem('plantaEditar', JSON.stringify(planta));
+  window.location.href = 'planta.html'; // Redirige al formulario con los datos
+}
+
+function borrarPlantaDesdeVista(num) {
+  if (!num) {
+    alert("No se encontró el número de cultivo para borrar.");
+    return;
+  }
+
+  if (!confirm("¿Seguro que deseas borrar esta planta?")) return;
+
+  const urlBorrar = `https://script.google.com/macros/s/AKfycbzLSy8Ho_SDzCEO0KFBDXFQA6W9xoabC-w8XP9HRYZmWTB6A8Kef0qDfyt_UZIv-RUh/exec?accion=borrar&num=${encodeURIComponent(num)}`;
+
+  fetch(urlBorrar, { method: 'POST' })
+    .then(res => res.json())
+    .then(data => {
+      if (data.status === 'ok') {
+        alert("Planta borrada correctamente.");
+        location.reload(); // Volver a cargar la lista
+      } else {
+        alert("Error al borrar: " + (data.error || "desconocido"));
+      }
+    })
+    .catch(err => alert("Error de conexión: " + err.message));
+}
 
     window.onload = cargarDatos;
   </script>
