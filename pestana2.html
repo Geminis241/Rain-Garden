@@ -234,11 +234,23 @@ function borrarPlantaDesdeVista(cultivo) {
     alert("No se encontró el nombre de la planta para borrar.");
     return;
   }
+
   if (!confirm(`¿Seguro que deseas borrar la planta "${cultivo}"?`)) return;
 
-  const urlBorrar = `https://script.google.com/u/0/home/projects/1fWhhU-3fp-22rhRYAm3ZOEZ9Yfqavo-Qu1TyUINVkGjdyoKpG1xdU-JM/edit${encodeURIComponent(cultivo)}`;
+  const urlBorrar = "https://script.google.com/u/0/home/projects/1fWhhU-3fp-22rhRYAm3ZOEZ9Yfqavo-Qu1TyUINVkGjdyoKpG1xdU-JM/edit";
 
-  fetch(urlBorrar, { method: 'POST' })
+  const datos = {
+    accion: "borrar",
+    cultivo: cultivo
+  };
+
+  fetch(urlBorrar, {
+    method: 'POST',
+    body: JSON.stringify(datos),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
     .then(res => res.json())
     .then(data => {
       if (data.status === 'ok') {
@@ -248,7 +260,9 @@ function borrarPlantaDesdeVista(cultivo) {
         alert("Error al borrar: " + (data.error || "desconocido"));
       }
     })
-    .catch(err => alert("Error de conexión: " + err.message));
+    .catch(err => {
+      alert("Error de conexión: " + err.message);
+    });
 }
 
     window.onload = cargarDatos;
