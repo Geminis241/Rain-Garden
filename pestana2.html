@@ -237,20 +237,22 @@ function borrarPlantaDesdeVista(cultivo) {
 
   if (!confirm(`¿Seguro que deseas borrar la planta "${cultivo}"?`)) return;
 
-  const urlBorrar = "https://script.google.com/u/0/home/projects/1fWhhU-3fp-22rhRYAm3ZOEZ9Yfqavo-Qu1TyUINVkGjdyoKpG1xdU-JM/edit";
+  const urlBorrar = "https://script.google.com/macros/s/AKfycbyNxEHnQ3QgatRbH5C89yVKHdLMA_d8dZFqP18ZVTO_iVGzUedyFZoHYVLAp9Itq-9o/exec";
 
   const datos = {
     accion: "borrar",
     cultivo: cultivo
   };
 
-  fetch(urlBorrar, {
-    method: 'POST',
-    body: JSON.stringify(datos),
-    headers: {
-      'Content-Type': 'application/json'
-    }
+fetch(urlBorrar, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    accion: "borrar",
+    cultivo: cultivo
   })
+})
+
     .then(res => res.json())
     .then(data => {
       if (data.status === 'ok') {
