@@ -237,7 +237,7 @@ function borrarPlantaDesdeVista(num) {
 
   if (!confirm("¿Seguro que deseas borrar esta planta?")) return;
 
-  const urlBorrar = `https://docs.google.com/spreadsheets/d/1CMJU-sIqP7hapcwm_lMiINayjSN5rV-bMRCDF4F8YcQ/edit?gid=0#gid=0${encodeURIComponent(num)}`;
+  const urlBorrar = `https://script.google.com/u/0/home/projects/1fWhhU-3fp-22rhRYAm3ZOEZ9Yfqavo-Qu1TyUINVkGjdyoKpG1xdU-JM/edit${encodeURIComponent(num)}`;
 
   fetch(urlBorrar, { method: 'POST' })
     .then(res => res.json())
