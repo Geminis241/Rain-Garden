@@ -38,10 +38,6 @@
 
     <form id="formPlanta">
       <div class="mb-3">
-        <label for="num" class="form-label">Número de cultivo</label>
-        <input type="text" class="form-control" id="num" required />
-      </div>
-      <div class="mb-3">
         <label for="nombre" class="form-label">Nombre del Cultivo</label>
         <input type="text" class="form-control" id="nombre" required />
       </div>
@@ -102,7 +98,6 @@
     document.getElementById("formPlanta").addEventListener("submit", function (e) {
       e.preventDefault();
 
-      const num = document.getElementById("num").value.trim();
       const nombre = document.getElementById("nombre").value.trim();
       const variedad = document.getElementById("variedad").value.trim();
       const nombreCientifico = document.getElementById("nombreCientifico").value.trim();
