@@ -236,7 +236,7 @@ function borrarPlantaDesdeVista(cultivo) {
   }
   if (!confirm(`¿Seguro que deseas borrar la planta "${cultivo}"?`)) return;
 
-  const urlBorrar = `https://script.google.com/macros/s/TU_WEBAPP_ID/exec?accion=borrar&cultivo=${encodeURIComponent(cultivo)}`;
+  const urlBorrar = `https://script.google.com/u/0/home/projects/1fWhhU-3fp-22rhRYAm3ZOEZ9Yfqavo-Qu1TyUINVkGjdyoKpG1xdU-JM/edit${encodeURIComponent(cultivo)}`;
 
   fetch(urlBorrar, { method: 'POST' })
     .then(res => res.json())
