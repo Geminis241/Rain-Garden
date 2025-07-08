@@ -183,7 +183,7 @@ function mostrarDetallePlanta(planta) {
         </table>
 
         <button class="btn btn-warning me-2" onclick='editarPlanta(${JSON.stringify(planta)})'>Modificar</button>
-        <button class="btn btn-danger" onclick='borrarPlantaDesdeVista("${planta.num || planta["número"] || ""}")'>Borrar</button>
+        <button class="btn btn-danger"onclick='borrarPlantaDesdeVista(${JSON.stringify(planta.cultivos)})'>Borrar</button>
       </div>
     </div>
   `;
@@ -229,22 +229,21 @@ function editarPlanta(planta) {
   window.location.href = 'planta.html'; // Redirige al formulario con los datos
 }
 
-function borrarPlantaDesdeVista(num) {
-  if (!num) {
-    alert("No se encontró el número de cultivo para borrar.");
+function borrarPlantaDesdeVista(cultivo) {
+  if (!cultivo) {
+    alert("No se encontró el nombre de la planta para borrar.");
     return;
   }
+  if (!confirm(`¿Seguro que deseas borrar la planta "${cultivo}"?`)) return;
 
-  if (!confirm("¿Seguro que deseas borrar esta planta?")) return;
-
-  const urlBorrar = `https://script.google.com/u/0/home/projects/1fWhhU-3fp-22rhRYAm3ZOEZ9Yfqavo-Qu1TyUINVkGjdyoKpG1xdU-JM/edit${encodeURIComponent(num)}`;
+  const urlBorrar = `https://script.google.com/macros/s/TU_WEBAPP_ID/exec?accion=borrar&cultivo=${encodeURIComponent(cultivo)}`;
 
   fetch(urlBorrar, { method: 'POST' })
     .then(res => res.json())
     .then(data => {
       if (data.status === 'ok') {
         alert("Planta borrada correctamente.");
-        location.reload(); // Volver a cargar la lista
+        location.reload();
       } else {
         alert("Error al borrar: " + (data.error || "desconocido"));
       }
