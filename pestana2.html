@@ -130,8 +130,8 @@
       const categoryContainer = document.getElementById('categoryContainer');
       categoryContainer.innerHTML = '';
       datos.forEach(item => {
-        const imgName = item.cultivos.toLowerCase().normalize("NFD").replace(/[^\w\s]/gi, '').replace(/\s+/g, '');
-        const imgSrc = `./${imgName}.jpg`;
+        const imgSrc = item.imagen || 'default.jpg';
+
         const card = document.createElement('div');
         card.className = 'col-md-6 mb-4';
         card.innerHTML = `
@@ -237,7 +237,7 @@ function borrarPlantaDesdeVista(cultivo) {
 
   if (!confirm(`¿Seguro que deseas borrar la planta "${cultivo}"?`)) return;
 
-  const urlBorrar = "https://script.google.com/macros/s/AKfycbyzs1rMjH0z-lLTemrh4Ktps3glTZZURNp5-ykcvtV4hRgCyxmLULuwwbgrKF8n9tRq/exec";
+  const urlBorrar = "https://script.google.com/macros/s/AKfycbyd1YB6kzPc_dLH5yOMKQB7xun47Zy5bOKgH351SGDTMfD2QicqNJo5I4PtxqlLwxAW/exec";
 
   const datos = {
     accion: "borrar",
