@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Subir imagen a GitHub</title>
+</head>
+<body>
+  <h2>Subir imagen</h2>
+  <input type="file" id="imagen" accept="image/*" />
+  <button onclick="subirImagen()">Subir</button>
+  <p id="mensaje"></p>
+  <img id="preview" style="max-width: 300px; display: none;" />
+
+  <script>
+    async function subirImagen() {
+      const input = document.getElementById('imagen');
+      const mensaje = document.getElementById('mensaje');
+      const preview = document.getElementById('preview');
+
+      if (!input.files.length) {
+        mensaje.textContent = "Seleccioná una imagen primero.";
+        return;
+      }
+
+      const archivo = input.files[0];
+      const lector = new FileReader();
+
+      lector.onload = async function () {
+        const base64Data = lector.result.split(',')[1]; // solo la parte base64
+        const nombreArchivo = archivo.name;
+
+        // ✅ Reemplazá esto con tu URL de Apps Script Web App
+        const urlWebApp = "https://script.google.com/macros/s/AKfycbyJtF4vInDJjAe-B9VFUF0UfQIh_SIoKsoxPXuUfig-pybnV6K8Y3I6F9jMFrNRvify/exec";
+
+        const respuesta = await fetch(urlWebApp, {
+          method: "POST",
+          body: JSON.stringify({
+            filename: nombreArchivo,
+            contentBase64: base64Data
+          }),
+          headers: {
+            "Content-Type": "application/json"
+          }
+        });
+
+        const resultado = await respuesta.json();
+        if (resultado.status === "ok") {
+          mensaje.textContent = "Imagen subida correctamente.";
+          preview.src = resultado.url;
+          preview.style.display = "block";
+        } else {
+          mensaje.textContent = "Error al subir imagen: " + (resultado.message || JSON.stringify(resultado.details));
+        }
+      };
+
+      lector.readAsDataURL(archivo);
+    }
+  </script>
+</body>
+</html>
