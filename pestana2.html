@@ -186,7 +186,7 @@
                 <tr><td><strong>Tutor:</strong></td><td>${planta['tutor'] || 'No disponible'}</td></tr>
               </tbody>
             </table>
-
+            <button class="btn btn-back mb-3" onclick="window.location.href='pestana2.html'">Subir imagen</button>
             <button class="btn btn-warning me-2" onclick='editarPlanta(${JSON.stringify(planta).replace(/'/g, "\\'")})'>Modificar</button>
             <button class="btn btn-danger" onclick='borrarPlantaDesdeVista(${JSON.stringify(planta.cultivos).replace(/'/g, "\\'")})'>Borrar</button>
           </div>
