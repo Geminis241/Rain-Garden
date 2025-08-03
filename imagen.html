@@ -26,11 +26,10 @@
       const lector = new FileReader();
 
       lector.onload = async function () {
-        const base64Data = lector.result.split(',')[1]; // solo la parte base64
-        const nombreArchivo = archivo.name;
+        const base64Data = lector.result.split(',')[1];
+        const nombreArchivo = `${Date.now()}_${archivo.name}`;
 
-        // ✅ Reemplazá esto con tu URL de Apps Script Web App
-        const urlWebApp = "https://script.google.com/macros/s/AKfycbz1p7HZ_6fOn2YeWfqaEF1IxwSNNYVv1nHg-_0PqzqUD-01WXkJs7fdOL2TlC1WZeGf/exec";
+        const urlWebApp = "https://script.google.com/macros/s/AKfycbz1p7HZ_6fOn2YeWfqaEF1IxwSNNYVv1nHg-_0PqzqUD-01WXkJs7fdOL2TlC1WZeGf/exec"; // ⬅️ reemplazá con tu URL publicada
 
         const respuesta = await fetch(urlWebApp, {
           method: "POST",
@@ -44,12 +43,12 @@
         });
 
         const resultado = await respuesta.json();
-        if (resultado.status === "ok") {
+        if (resultado.success) {
           mensaje.textContent = "Imagen subida correctamente.";
           preview.src = resultado.url;
           preview.style.display = "block";
         } else {
-          mensaje.textContent = "Error al subir imagen: " + (resultado.message || JSON.stringify(resultado.details));
+          mensaje.textContent = "Error al subir imagen: " + (resultado.error || "Error desconocido");
         }
       };
 
