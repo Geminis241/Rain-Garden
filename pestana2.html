@@ -236,16 +236,16 @@
         return;
       }
 
-      if (!confirm(`¿Seguro que deseas borrar la planta "${cultivo}"?`)) return;
-
-      const urlBorrar = "https://script.google.com/macros/s/AKfycbySruxfxec71PwJfLOHocDJHqAK_BUnM5Dcnx2HsyOhcCzUeWRdBFbkC2SyU60dDrG8/exec";
+if (!confirm(` ¿Seguro que deseas borrar la planta "${cultivo}"?`)) return;
+//santi editó lo ultimo desde acá
+      const urlBorrar = "https://script.google.com/macros/s/AKfycbwAg2SPnjg7j4g6u1P1EzRTrpVyqrRX_W7mtXh7SZLI3L-9dVRgC_-Nq7nlii8RAM0L/exec";
 
       fetch(urlBorrar, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'text/plain' }, 
         body: JSON.stringify({
           accion: "borrar",
-          cultivo: cultivo
+          cultivos: cultivo
         })
       })
         .then(res => res.json())
@@ -260,6 +260,7 @@
         .catch(err => {
           alert("Error de conexión: " + err.message);
         });
+//santi editó hasta acá
     }
 
     window.onload = cargarDatos;
