@@ -29,26 +29,32 @@
         const base64Data = lector.result.split(',')[1];
         const nombreArchivo = `${Date.now()}_${archivo.name}`;
 
-        const urlWebApp = "https://script.google.com/macros/s/AKfycbz1p7HZ_6fOn2YeWfqaEF1IxwSNNYVv1nHg-_0PqzqUD-01WXkJs7fdOL2TlC1WZeGf/exec"; // ⬅️ reemplazá con tu URL publicada
+        const urlWebApp = "https://script.google.com/macros/s/AKfycbxltnkcJbBeqhjRryeTm0f7EDXsXznxTzCmIFftzVG8wRytscE8Wl-A-Nx3NzwNS3Solw/exec"; // reemplazá con tu URL publicada
 
-        const respuesta = await fetch(urlWebApp, {
-          method: "POST",
-          body: JSON.stringify({
-            filename: nombreArchivo,
-            contentBase64: base64Data
-          }),
-          headers: {
-            "Content-Type": "application/json"
+        try {
+          const respuesta = await fetch(urlWebApp, {
+            method: "POST",
+            body: JSON.stringify({
+              filename: nombreArchivo,
+              contentBase64: base64Data
+            }),
+            headers: {
+              "Content-Type": "text/plain"
+            }
+          });
+
+          const texto = await respuesta.text();
+          const resultado = JSON.parse(texto);
+
+          if (resultado.success) {
+            mensaje.textContent = "Imagen subida correctamente.";
+            preview.src = resultado.url;
+            preview.style.display = "block";
+          } else {
+            mensaje.textContent = "Error al subir imagen: " + (resultado.error || "Error desconocido");
           }
-        });
-
-        const resultado = await respuesta.json();
-        if (resultado.success) {
-          mensaje.textContent = "Imagen subida correctamente.";
-          preview.src = resultado.url;
-          preview.style.display = "block";
-        } else {
-          mensaje.textContent = "Error al subir imagen: " + (resultado.error || "Error desconocido");
+        } catch (error) {
+          mensaje.textContent = "Error en la comunicación: " + error.message;
         }
       };
 
