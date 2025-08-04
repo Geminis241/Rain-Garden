@@ -1,54 +1,39 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <title>Subir imagen a Drive</title>
+  <meta charset="UTF-8">
+  <title>Subir Imagen</title>
 </head>
 <body>
-  <h2>Subir imagen</h2>
-  <input type="file" id="imagen" accept="image/*" />
-  <button onclick="subirImagen()">Subir</button>
+  <h3>Seleccionar imagen</h3>
+  <input type="file" accept="image/*" onchange="subirImagen(event)">
   <p id="mensaje"></p>
-  <img id="preview" style="max-width: 300px; display: none;" />
+  <img id="preview" src="" style="max-width: 300px; display: none;">
 
   <script>
-    async function subirImagen() {
-      const input = document.getElementById('imagen');
-      const mensaje = document.getElementById('mensaje');
-      const preview = document.getElementById('preview');
-
-      if (!input.files.length) {
-        mensaje.textContent = "Seleccioná una imagen primero.";
-        return;
-      }
-
-      const archivo = input.files[0];
+    async function subirImagen(event) {
+      const archivo = event.target.files[0];
       const lector = new FileReader();
 
       lector.onload = async function () {
-        const base64Data = lector.result.split(',')[1];
-        const nombreArchivo = `${Date.now()}_${archivo.name}`;
+        const base64 = lector.result.split(',')[1];
 
-        const urlWebApp = "https://script.google.com/macros/s/AKfycbyYlWpXogOgY8v2LLDf5v0ltAPsNblyPDxhgQqXphOzZab4V6x4_-yHKZOFGEQGHozTSA/exec"; // REEMPLAZÁ
-
-        const respuesta = await fetch(urlWebApp, {
+        const respuesta = await fetch("https://script.google.com/macros/s/AKfycbyYlWpXogOgY8v2LLDf5v0ltAPsNblyPDxhgQqXphOzZab4V6x4_-yHKZOFGEQGHozTSA/exec", {
           method: "POST",
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            filename: nombreArchivo,
-            contentBase64: base64Data
-          }),
-          headers: {
-            "Content-Type": "application/json"
-          }
+            filename: archivo.name,
+            contentBase64: base64
+          })
         });
 
-        const resultado = await respuesta.json();
-        if (resultado.success) {
-          mensaje.textContent = "Imagen subida correctamente.";
-          preview.src = resultado.url;
-          preview.style.display = "block";
+        const json = await respuesta.json();
+        if (json.success) {
+          document.getElementById("mensaje").innerText = "Imagen subida con éxito.";
+          document.getElementById("preview").src = json.url;
+          document.getElementById("preview").style.display = "block";
         } else {
-          mensaje.textContent = "Error al subir imagen: " + (resultado.error || "Error desconocido");
+          document.getElementById("mensaje").innerText = "Error: " + json.error;
         }
       };
 
